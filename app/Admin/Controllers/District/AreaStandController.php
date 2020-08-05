@@ -6,6 +6,7 @@ use App\Dao\ChinaAreaDao;
 use App\Dao\District\FacilitatorDao;
 use App\Models\ChinaArea;
 use App\Models\District\AreaStand;
+use App\Models\District\Facilitators;
 use DemeterChain\A;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
@@ -30,7 +31,7 @@ class AreaStandController extends AdminController
     protected function grid()
     {
         $areaStand = new AreaStand();
-        $grid = new Grid(new AreaStand());
+        $grid = new Grid($areaStand);
         $grid->filter(function($filter) use($areaStand) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -52,15 +53,27 @@ class AreaStandController extends AdminController
         $grid->column('level', '项目部'.__('Level'))->using(
             $areaStand->getAllLevel()
         );
-        $grid->column('operator', '项目部'.__('Operator'))->display(function () {
-            return $this->operatorText();
+        $grid->column('operator', '项目部'.__('Operator'))->display(function ($operator) {
+            $operator = Facilitators::whereIn('id',$operator)->pluck('name')->toArray();
+            return implode(',', $operator);
         });
 
-        $grid->column('type', '项目部'.__('Type'))->display(function () {
-            return $this->typeText();
+        $grid->column('type', '项目部'.__('Type'))->display(function () use($areaStand){
+            $all = $areaStand->getAllType();
+            $data = [];
+            foreach ($this->type as $key => $item) {
+                $data[] = $all[$item];
+            }
+            return implode(',', $data);
+
         });
-        $grid->column('explain', '项目部'.__('Explain'))->display(function () {
-            return $this->explainText();
+        $grid->column('explain', '项目部'.__('Explain'))->display(function () use($areaStand){
+            $all = $areaStand->getAllExplain();
+            $data = [];
+            foreach ($this->explain as $key => $item) {
+                $data[] = $all[$item] ?? '';
+            }
+            return implode(',', $data);
         }) ;
 
 
