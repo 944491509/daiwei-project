@@ -25,15 +25,20 @@ class PostController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Post());
-
+        $post = new Post();
+        $grid = new Grid($post);
         $grid->column('id', __('Id'));
         $grid->column('name', '岗位' . __('Name'));
         $grid->column('explain', __('Explain'));
         $grid->column('require', __('Require'));
         $grid->column('level', __('Level'));
-        $grid->column('belong_to', __('BelongTo'))->display(function () {
-            return $this->belongToText();
+        $grid->column('belong_to', __('BelongTo'))->display(function ()use($post) {
+            $belongTos = $post->getAllBelongTo();
+            $data = [];
+            foreach ($this->belong_to as $key => $item) {
+                $data[] = $belongTos[$item];
+            }
+            return implode(',', $data);
         });
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));

@@ -56,19 +56,4 @@ class Post extends Model
         return $this->belongsTo(Department::class, 'department_id');
     }
 
-
-    public function belongToText() {
-        if(is_null($this->belong_to)) {
-            return null;
-        }
-        $belongTos = $this->getAllBelongTo();
-        $data = [];
-        foreach ($this->belong_to as $key => $item) {
-            $data[] = $belongTos[$item];
-        }
-        return implode(',', $data);
-    }
-
-
-
 }
