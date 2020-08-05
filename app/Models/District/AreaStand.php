@@ -106,16 +106,6 @@ class AreaStand extends Model
     }
 
 
-    /**
-     * 当前级别
-     * @return string
-     */
-    public function levelText() {
-        $levels = $this->getAllLevel();
-        return $levels[$this->level] ?? '';
-    }
-
-
 
 
     /**

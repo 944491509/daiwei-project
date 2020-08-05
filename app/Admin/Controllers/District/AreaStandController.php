@@ -49,12 +49,13 @@ class AreaStandController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('name', '项目部'.__('Name'));
-        $grid->column('level', '项目部'.__('Level'))->display(function () {
-            return $this->levelText();
-        });
+        $grid->column('level', '项目部'.__('Level'))->using(
+            $areaStand->getAllLevel()
+        );
         $grid->column('operator', '项目部'.__('Operator'))->display(function () {
             return $this->operatorText();
         });
+
         $grid->column('type', '项目部'.__('Type'))->display(function () {
             return $this->typeText();
         });
@@ -62,11 +63,6 @@ class AreaStandController extends AdminController
             return $this->explainText();
         }) ;
 
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            if (count($actions->getAttribute('departments')) > 0) {
-                $actions->disableDelete();
-            }
-        });
 
         $grid->column('remark', __('Remark'));
         $grid->column('created_at', __('Created at'));

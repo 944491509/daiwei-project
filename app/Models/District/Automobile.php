@@ -77,15 +77,6 @@ class Automobile extends Model
     }
 
 
-    /**
-     * 当前车辆类别
-     * @return string
-     */
-    public function typeText() {
-        $types = $this->allCatType();
-        return $types[$this->type] ?? '';
-    }
-
 
     /**
      * 车辆性质
@@ -100,16 +91,6 @@ class Automobile extends Model
 
 
     /**
-     * 当前车辆性质
-     * @return string
-     */
-    public function natureText() {
-        $natures = $this->allNature();
-        return $natures[$this->nature] ?? '';
-    }
-
-
-    /**
      * 车辆用途
      * @return string[]
      */
@@ -119,16 +100,6 @@ class Automobile extends Model
             self::PROJECT => self::PROJECT_TEXT,
             self::GENERATE_ELECTRICITY => self::GENERATE_ELECTRICITY_TEXT,
         ];
-    }
-
-
-    /**
-     * 当前车辆用途
-     * @return string
-     */
-    public function useText() {
-        $uses = $this->allUse();
-        return $uses[$this->use] ?? '';
     }
 
 
