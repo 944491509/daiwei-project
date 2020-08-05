@@ -24,13 +24,14 @@ class FacilitatorsController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Facilitators());
+        $model = new Facilitators();
+        $grid = new Grid($model);
 
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
-        $grid->column('status_text', __('Status'))->display(function () {
-            return $this->statusText();
-        });
+        $grid->column('status', __('Status'))->using(
+            $model->getAllStatus()
+        )->label($model->getAllColor());
 
         $grid->column('created_at', __('Created at'));
         $grid->disableFilter(); // 去掉筛选
