@@ -27,7 +27,7 @@ class TaskGroupController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new TaskGroup());
-
+        $grid->model()->with(['areaStand','department']);
         $grid->column('id', __('Id'));
         $grid->column('areaStand.name', __('Stand'));
         $grid->column('department.name', __('Department'));
