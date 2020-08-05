@@ -26,7 +26,9 @@ class TaskGroupController extends AdminController
      */
     protected function grid()
     {
+
         $grid = new Grid(new TaskGroup());
+        $grid->model()->with(['areaStand', 'department']);
 
         $grid->column('id', __('Id'));
         $grid->column('areaStand.name', __('Stand'));
@@ -36,7 +38,6 @@ class TaskGroupController extends AdminController
         $grid->column('updated_at', __('Updated at'));
 
         $grid->disableFilter(); // 去掉筛选
-
 
         return $grid;
     }
