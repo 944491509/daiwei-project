@@ -18,7 +18,7 @@ class UpdateAdminTables extends Migration
             $table->integer('order')->default(0);
         });
 
-        Schema::create('permission_menu_table', function (Blueprint $table) {
+        Schema::create(config('admin.database.permission_menu_table'), function (Blueprint $table) {
             $table->integer('permission_id');
             $table->integer('menu_id');
             $table->unique(['permission_id', 'menu_id']);
@@ -33,6 +33,6 @@ class UpdateAdminTables extends Migration
             $table->dropColumn('order');
         });
 
-        Schema::dropIfExists('permission_menu_table');
+        Schema::dropIfExists(config('admin.database.permission_menu_table'));
     }
 }
