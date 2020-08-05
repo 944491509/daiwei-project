@@ -64,24 +64,6 @@ class AreaStand extends Model
 
 
     /**
-     * 业务类型
-     * @return string
-     */
-    public function typeText() {
-        if(empty($this->type)) {
-            return null;
-        }
-        $all = $this->getAllType();
-        $data = [];
-        foreach ($this->type as $key => $item) {
-            $data[] = $all[$item];
-        }
-        return implode(',', $data);
-    }
-
-
-
-    /**
      * 区域网络说明
      * @return string[]
      */
@@ -106,46 +88,12 @@ class AreaStand extends Model
     }
 
 
-    /**
-     * 当前级别
-     * @return string
-     */
-    public function levelText() {
-        $levels = $this->getAllLevel();
-        return $levels[$this->level] ?? '';
-    }
 
 
 
 
-    /**
-     * 获取当前区域网络说明
-     * @return string
-     */
-    public function explainText() {
-        if(empty($this->explain)) {
-            return null ;
-        }
-        $all = $this->getAllExplain();
-        $data = [];
-        foreach ($this->explain as $key => $item) {
-            $data[] = $all[$item] ?? '';
-        }
-        return implode(',', $data);
-    }
 
 
-    /**
-     * 服务商
-     * @return string|null
-     */
-    public function operatorText() {
-        if(empty($this->operator)) {
-            return null;
-        }
-        $operator = Facilitators::whereIn('id',$this->operator)->pluck('name')->toArray();
-        return implode(',', $operator);
-    }
 
 
     /**

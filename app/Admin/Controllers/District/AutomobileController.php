@@ -10,8 +10,8 @@ use App\Models\District\User;
 use App\Dao\District\AreaStandDao;
 use App\Models\District\Automobile;
 use Dcat\Admin\Controllers\AdminController;
-use App\Admin\Extensions\ExcelExporter;
 use Illuminate\Support\Facades\Storage;
+use App\Admin\Repositories\Automobile as AutomobileModel;
 
 class AutomobileController extends AdminController
 {
@@ -35,7 +35,7 @@ class AutomobileController extends AdminController
         $uses = $model->allUse();
         $areaStandDao = new AreaStandDao();
         $stands = $areaStandDao->getAreaStandOption();
-        $grid = new Grid($model);
+        $grid = Grid::make(new AutomobileModel(['driver','stand']));
         // 去掉默认的id过滤器
         $grid->filter(function($filter) use ($types, $natures, $stands, $uses){
             $filter->disableIdFilter();
@@ -53,19 +53,19 @@ class AutomobileController extends AdminController
         });
         $grid->column('id', __('Id'));
         $grid->column('number', __('Number'));
-        $grid->column('type', __('Type'))->display(function () {
-            return $this->typeText();
-        });
+        $grid->column('type', __('Type'))->using(
+            $model->allCatType()
+        );
         $grid->column('bought_company', __('Bought company'));
         $grid->column('car_owner', __('Car owner'));
         $grid->column('stand.name', __('Stand'));
         $grid->column('driver.name', __('Driver'));
-        $grid->column('nature', __('Nature'))->display(function () {
-            return $this->natureText();
-        });
-        $grid->column('use', __('Use'))->display(function () {
-            return $this->useText();
-        });
+        $grid->column('nature', __('Nature'))->using(
+            $model->allNature()
+        );
+        $grid->column('use', __('Use'))->using(
+            $model->allUse()
+        );
         $grid->column('bought_at', __('Bought at'));
         $grid->column('created_at', __('Created at'));
         // 添加到列表上

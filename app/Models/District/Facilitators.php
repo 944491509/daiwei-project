@@ -19,6 +19,10 @@ class Facilitators extends Model
     const HIDE_TEXT = '隐藏';
     const SHOW_TEXT = '显示';
 
+    const HIDE_COLOR = 'danger';
+    const SHOW_COLOR = 'success';
+
+
 
     /**
      * 全部状态
@@ -31,13 +35,16 @@ class Facilitators extends Model
         ];
     }
 
+
     /**
-     * 当前状态
-     * @return string
+     * 颜色
+     * @return string[]
      */
-    public function statusText() {
-        $status = $this->getAllStatus();
-        return $status[$this->status] ?? '';
+    public function getAllColor() {
+        return [
+            self::HIDE => self::HIDE_COLOR,
+            self::SHOW => self::SHOW_COLOR,
+        ];
     }
 
 }
