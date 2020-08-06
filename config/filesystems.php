@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+//    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => 'oss',
 
     /*
     |--------------------------------------------------------------------------
@@ -70,13 +71,28 @@ return [
             'visibility' => 'public',
             'url' => env('APP_URL') . '/storage',
         ],
+
+        'alioss' => [
+            'driver'        => 'oss',
+            'access_id'     => 'LTAI4G3jyhkNyYrhCWGqGMKy',
+            'access_key'    => 'eRIZoLj36NIuV6n9zBdBYSSRqHobMt',
+            'bucket'        => 'daiwei-oss',
+            'endpoint'      => 'oss-cn-beijing.aliyuncs.com', // OSS 外网节点或自定义外部域名
+            'cdnDomain'     => '', // 如果isCName为true, getUrl会判断cdnDomain是否设定来决定返回的url，如果cdnDomain未设置，则使用endpoint来生成url，否则使用cdn
+            'ssl'           => true,  // true to use 'https://' and false to use 'http://'. default is false,
+            'isCName'       => false, // 是否使用自定义域名,true: 则Storage.url()会使用自定义的cdn或域名生成文件url， false: 则使用外部节点生成url
+            'debug'         => false,
+            'url'           => 'https://oss-cn-beijing.aliyuncs.com/instrument/'
+    ],
+
         // 仪器图片
         'instrument' => [
             'driver' => 'local',
             'root' => storage_path('app/public/instrument'),
             'visibility' => 'public',
-            'url' => env('APP_URL') . '/storage',
+            'url' => env('APP_URL') . '/storage/instrument',
         ],
+
         // 汽车图片
         'automobile' => [
             'driver'     => 'local',

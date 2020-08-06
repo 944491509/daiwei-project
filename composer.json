@@ -12,6 +12,8 @@
         "caouecs/laravel-lang": "~4.0",
         "dcat/laravel-admin": "^1.6",
         "fideloper/proxy": "^4.0",
+        "intervention/image": "^2.5",
+        "jacobcyl/ali-oss-storage": "^2.1",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1"

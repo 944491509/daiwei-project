@@ -39,7 +39,7 @@ class Instrument extends Model
     protected $fillable = [
         'area_stand_id', 'name', 'model', 'number', 'unit', 'factory',
         'serial_number', 'attributes', 'purchase_time', 'money', 'tag',
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'image'
     ];
 
 

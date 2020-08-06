@@ -4,6 +4,8 @@ namespace App\Admin\Controllers\District;
 
 use App\Dao\District\AreaStandDao;
 use App\Models\District\Instrument;
+use App\Models\District\InstrumentImage;
+use App\Models\EquipmentImage;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -102,39 +104,16 @@ class InstrumentController extends AdminController
             ->when([Instrument::PURCHASE, Instrument::TAKEOVER], function (Form $form) {
                 $form->currency('money', '购买金额')->symbol('￥');
                 $form->date('purchase_time', '购买时间');
-            })
-            ->when(Instrument::LEASE, function (Form $form) {
+            })->when(Instrument::LEASE, function (Form $form) {
                 $form->currency('money', '租聘金额')->symbol('￥');
                 $form->date('purchase_time', '租聘时间');
-            })->required();;
-
+            })->required();
             $form->text('tag', '资产标签')->required();
-            $form->multipleImage('images', '资产图片')
-                ->disk('instrument')
+            $form->multipleImage('image', '资产图片')
+                ->disk('alioss')
                 ->autoUpload()
-                ->help('上传多张图片 请在选择图片时按住 ctrl ')
-                ->saving(function ($paths)  use ($form)   {
-                   if ($form->isEditing() && ! $paths) {
-                        // 编辑页面，删除图片逻辑
-                        Image::destroy($form->model()->image1);
-
-                        return;
-                   }
-
-                    // 新增或编辑页面上传图片
-                    if ($paths) {
-                        $model = Image::where('path', $paths)->first();
-                    }
-
-                    if (empty($model)) {
-                        $model = new Image();
-                    }
-
-                    $model->path = $paths;
-
-                    $model->save();
-
-                    return $model->getKey();
+                ->saving(function ($path) {
+                    return implode(',', $path);
                 });
         });
         return $form;
