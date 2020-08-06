@@ -26,12 +26,10 @@ class InstrumentController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Instrument());
-        $grid->disableFilter(); // 去掉筛选
         $grid->quickSearch('name')->placeholder('搜索 仪器名称');
-        $grid->column('area_stand_id', '项目部')->display(function () {
-            return $this->areaStand->name;
-        });
+        $grid->model()->with(['areaStand']);
 
+        $grid->column('areaStand.name', '项目部');
         $grid->column('name', '仪器名称');
         $grid->column('model', '型号');
         $grid->column('number', '数量');
@@ -48,6 +46,7 @@ class InstrumentController extends AdminController
                 return $this->money . '  元';
             }
         });
+
         $grid->column('tag', '标签');
         $grid->column('created_at', __('Created at'));
 
@@ -99,15 +98,44 @@ class InstrumentController extends AdminController
         });
         $form->column(1 / 2, function ($form) use ($area) {
             $form->text('serial_number', '资产序列号')->required();
-            $form->radio('attributes', '资产属性')->options(Instrument::buyAttribute())->default(Instrument::PURCHASE)->required();
-            $form->currency('money', '购买金额')->symbol('￥')->required();
-            $form->date('purchase_time', '购买时间')->required();
+            $form->radio('attributes', '资产属性')->options(Instrument::buyAttribute())->default(Instrument::PURCHASE)
+            ->when([Instrument::PURCHASE, Instrument::TAKEOVER], function (Form $form) {
+                $form->currency('money', '购买金额')->symbol('￥');
+                $form->date('purchase_time', '购买时间');
+            })
+            ->when(Instrument::LEASE, function (Form $form) {
+                $form->currency('money', '租聘金额')->symbol('￥');
+                $form->date('purchase_time', '租聘时间');
+            })->required();;
+
             $form->text('tag', '资产标签')->required();
             $form->multipleImage('images', '资产图片')
-                ->pathColumn('path')
-                ->move('instrument')
+                ->disk('instrument')
+                ->autoUpload()
                 ->help('上传多张图片 请在选择图片时按住 ctrl ')
-                ->removable();
+                ->saving(function ($paths)  use ($form)   {
+                   if ($form->isEditing() && ! $paths) {
+                        // 编辑页面，删除图片逻辑
+                        Image::destroy($form->model()->image1);
+
+                        return;
+                   }
+
+                    // 新增或编辑页面上传图片
+                    if ($paths) {
+                        $model = Image::where('path', $paths)->first();
+                    }
+
+                    if (empty($model)) {
+                        $model = new Image();
+                    }
+
+                    $model->path = $paths;
+
+                    $model->save();
+
+                    return $model->getKey();
+                });
         });
         return $form;
     }
