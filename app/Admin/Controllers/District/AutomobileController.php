@@ -4,6 +4,7 @@ namespace App\Admin\Controllers\District;
 
 use App\Admin\Actions\Automobile\ImportAction;
 use App\Admin\Actions\Automobile\OutputAction;
+use App\Models\District\AutomobileImage;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use App\Models\District\User;
@@ -93,8 +94,10 @@ class AutomobileController extends AdminController
         $stands = $areaStandDao->getAreaStandOption();
         $nature = $automobile->allNature();
         $use= $automobile->allUse();
-        $form = new Form($automobile);
+
+        // 这里需要显式地指定关联关系
         $type = $automobile->allCatType();
+        $form = new Form($automobile);
         $form->column(1/2, function ($form) use ($type, $stands, $nature, $use){
             $form->text('number', __('Number'))
                 ->creationRules(['required', "unique:automobiles"])
@@ -125,8 +128,12 @@ class AutomobileController extends AdminController
             $form->text('engine_num', __('Engine num'));
             $form->text('vin', __('Vin'));
             $form->text('loads', __('Loads'));
-            $form->multipleImage('images','图片')->pathColumn('path')->move('automobile');
+            $form->multipleImage('image','图片')->autoUpload()
+                ->disk('automobile')->saving(function ($paths) {
+                     return implode(',', $paths);
+                });
             $form->textarea('explain', '车辆'.__('Explain'));
+
         });
 
         return $form;

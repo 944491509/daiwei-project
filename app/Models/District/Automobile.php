@@ -2,9 +2,7 @@
 
 namespace App\Models\District;
 
-use App\Models\ChinaArea;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Self_;
 
 /**
  * @property int $id
@@ -38,7 +36,7 @@ class Automobile extends Model
     protected $fillable = [
         'number', 'explain', 'type', 'manufacturers', 'model', 'displacement', 'bought_company',
         'car_owner', 'price', 'oil_wear', 'engine_num', 'vin', 'loads', 'stand_id', 'user_id',
-        'nature', 'use', 'bought_at', 'created_at', 'updated_at'
+        'nature', 'use', 'bought_at', 'image'
     ];
 
     // 车辆类型
@@ -118,11 +116,6 @@ class Automobile extends Model
      */
     public function driver() {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-
-    public function images() {
-        return $this->hasMany(AutomobileImage::class, 'automobile_id');
     }
 
 
