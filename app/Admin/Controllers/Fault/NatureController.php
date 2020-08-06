@@ -26,21 +26,22 @@ class NatureController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new NetworkFaultNature());
-
+        $model = new NetworkFaultNature();
+        $grid = new Grid($model);
+        $grid->model()->with(['source','times']);
         $grid->column('id', __('Id'));
-        $grid->column('type', '故障'.__('Type'))->display(function () {
-            return $this->typeText();
-        });
+        $grid->column('type', '故障'.__('Type'))->using(
+            $model->allType()
+        );
         $grid->column('source.name', '故障'.__('Source'));
         $grid->column('name', __('Name'));
-        $grid->column('times',__('Times'))->display(function ($class) {
-            $res = array_map(function ($class) {
-                return "<span class='label label-success'>{$class['hour']}小时</span>";
-            }, $class);
-
+        $grid->column('times',__('Times'))->display(function ($times) {
+            $res = array_map(function ($times) {
+                return "<span class='label' style='background-color: #00a65a;'>{$times['hour']}小时</span>";
+            }, $times);
             return join(' ', $res);
         });
+
         $grid->column('created_at', __('Created at'));
 
         return $grid;

@@ -28,16 +28,18 @@ class NetworkFaultController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new NetworkFault());
+        $model = new NetworkFault();
+        $grid = new Grid($model);
+        $grid->model()->with(['source','time', 'stand', 'nature']);
 
         $grid->column('id', __('Id'));
         $grid->column('stand.name', __('Stand'));
         $grid->column('source.name', __('Source'));
         $grid->column('nature.name', __('Nature'));
         $grid->column('time.hour', __('Times'));
-        $grid->column('kind', __('Kind'))->display(function () {
-            return $this->kindText();
-        });
+        $grid->column('kind', __('Kind'))->using(
+            $model->allKind()
+        );
         $grid->column('happen_time', __('HappenTime'));
         $grid->column('accept_time', __('AcceptTime'));
         $grid->column('created_at', __('Created at'));

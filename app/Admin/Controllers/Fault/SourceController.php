@@ -25,7 +25,7 @@ class SourceController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new NetworkFaultSource());
-
+        $grid->model()->with(['stand']);
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('stand.name', __('Stand'));
