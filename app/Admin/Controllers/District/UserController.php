@@ -38,7 +38,7 @@ class UserController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new User());
-
+        $grid->with(['areaStand']);
         $grid->quickSearch('name', 'mobile', 'phone')->placeholder('搜索 名字 手机号');
         $dao = new AreaStandDao;
         $areaDao = $dao->getAllAreaStand();
@@ -64,22 +64,22 @@ class UserController extends AdminController
                 $filter->equal('profile.post_id', '岗位')->select($posts);
             });
         });
-
-        $grid->column('area_stand_id', '项目部')->display(function () {
-            return $this->profile->areaStand->name;
-        });
-        $grid->column('department_id', '部门')->display(function () {
-            return $this->profile->department->name;
-        });
-        $grid->column('group_id', '班组')->display(function () {
-            return $this->profile->group->name;
-        });
-        $grid->column('major_id', '专业')->display(function () {
-            return $this->profile->major->name;
-        });
-        $grid->column('post_id', '岗位')->display(function () {
-            return $this->profile->post->name;
-        });
+        $grid->areaStand()->pluck('name')->label();
+//        $grid->column('area_stand_id', '项目部')->display(function () {
+//            return $this->profile->areaStand->name;
+//        });
+//        $grid->column('department_id', '部门')->display(function () {
+//            return $this->profile->department->name;
+//        });
+//        $grid->column('group_id', '班组')->display(function () {
+//            return $this->profile->group->name;
+//        });
+//        $grid->column('major_id', '专业')->display(function () {
+//            return $this->profile->major->name;
+//        });
+//        $grid->column('post_id', '岗位')->display(function () {
+//            return $this->profile->post->name;
+//        });
         $grid->column('name', '姓名');
         $grid->column('gender', '性别')->using([User::GENDER_MAN => '男', User::GENDER_WOMAN => '女']);
         $grid->column('mobile', '手机号1');

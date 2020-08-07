@@ -23,45 +23,7 @@ class UserProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * 项目部
-     */
-    public function areaStand()
-    {
-        return $this->belongsTo(AreaStand::class);
-    }
 
-    /**
-     * 部门
-     */
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    /**
-     * 班组
-     */
-    public function group()
-    {
-        return $this->belongsTo(TaskGroup::class);
-    }
-
-    /**
-     * 专业
-     */
-    public function major()
-    {
-        return $this->belongsTo(Major::class);
-    }
-
-    /**
-     * 岗位
-     */
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
 
     /**
      * 单选 是否
