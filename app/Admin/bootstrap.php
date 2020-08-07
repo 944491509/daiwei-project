@@ -18,21 +18,17 @@
  *
  */
 
-use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Form;
 
-//Dcat\Admin\Form::forget(['map', 'editor']);
-//Form::init(function (Form $form) {
-//    $form->disableViewCheck();
-//    $form->tools(function (Form\Tools $tools) {
-//        $tools->disableDelete();
-//        $tools->disableView();
-//    });
-//});
-//
-//Grid::init(function (Grid $grid) {
-//    $grid->actions(function (Grid\Displayers\Actions $actions) {
-//        $actions->disableView();
-//        $actions->disableDelete();
-//    });
-//});
+Grid::resolving(function (Grid $grid) {
+    $grid->disableViewButton();
+
+});
+
+
+Form::resolving(function (Form $form) {
+    $form->disableViewButton();
+});
+
+

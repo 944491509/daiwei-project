@@ -82,7 +82,7 @@ return [
             'ssl'           => true,  // true to use 'https://' and false to use 'http://'. default is false,
             'isCName'       => false, // 是否使用自定义域名,true: 则Storage.url()会使用自定义的cdn或域名生成文件url， false: 则使用外部节点生成url
             'debug'         => false,
-            'url'           => 'https://oss-cn-beijing.aliyuncs.com/instrument/'
+            'url'           => 'https://oss-cn-beijing.aliyuncs.com/'
     ],
 
         // 仪器图片

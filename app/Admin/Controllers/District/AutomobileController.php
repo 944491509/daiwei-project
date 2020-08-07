@@ -129,7 +129,7 @@ class AutomobileController extends AdminController
             $form->text('vin', __('Vin'));
             $form->text('loads', __('Loads'));
             $form->multipleImage('image','图片')->autoUpload()
-                ->disk('automobile')->saving(function ($paths) {
+                ->disk('alioss')->saving(function ($paths) {
                      return implode(',', $paths);
                 });
             $form->textarea('explain', '车辆'.__('Explain'));
