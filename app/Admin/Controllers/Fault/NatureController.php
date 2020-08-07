@@ -44,6 +44,7 @@ class NatureController extends AdminController
 
         $grid->column('created_at', __('Created at'));
 
+
         return $grid;
     }
 
