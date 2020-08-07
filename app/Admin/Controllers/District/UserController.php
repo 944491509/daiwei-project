@@ -103,7 +103,7 @@ class UserController extends AdminController
      */
     protected function form()
     {
-        $form = Form::make(new User(), function (Form $form) {
+        $form = Form::make(User::with('profile'), function (Form $form) {
             $dao = new AreaStandDao;
             $areaDao = $dao->getAllAreaStand();
             $area = $areaDao->pluck('name', 'id');
@@ -114,6 +114,7 @@ class UserController extends AdminController
             foreach ($postData as $val) {
                 $posts[$val->id] = $val->name;
             }
+
             $skill = ProfessionalSkill::all()->pluck('name', 'id');
 
             if ($form->isCreating()) {
@@ -164,6 +165,7 @@ class UserController extends AdminController
             if ($form->isEditing()) {
 
                 $form->tab('个人信息', function ($form) {
+                    $form->model()->with(['profile', 'userMajor']);
                     $form->text('name', '姓名')->required();
                     $form->text('profile.number', '工号')->required();
                     $form->radio('gender', '性别')->options([
