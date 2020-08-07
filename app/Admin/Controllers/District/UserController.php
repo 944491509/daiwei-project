@@ -64,7 +64,7 @@ class UserController extends AdminController
                 $filter->equal('profile.post_id', '岗位')->select($posts);
             });
         });
-        $grid->stand()->pluck('name')->label();
+        $grid->stand(__('Stand'))->pluck('name')->label();
 //        $grid->column('area_stand_id', '项目部')->display(function () {
 //            return $this->profile->areaStand->name;
 //        });
