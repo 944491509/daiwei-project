@@ -37,14 +37,14 @@ return [
     'logo-mini' => '<img src="/vendors/dcat-admin/images/logo.png">',
 
     /*
-     |--------------------------------------------------------------------------
-     | User default avatar
-     |--------------------------------------------------------------------------
-     |
-     | Set a default avatar for newly created users.
-     |
-     */
-    'default_avatar' => '@admin/images/default-avatar.jpg',
+	 |--------------------------------------------------------------------------
+	 | User default avatar
+	 |--------------------------------------------------------------------------
+	 |
+	 | Set a default avatar for newly created users.
+	 |
+	 */
+	'default_avatar' => '@admin/images/default-avatar.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -58,9 +58,9 @@ return [
     */
     'route' => [
 
-//        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
-        'domain' => env('ADMIN_DOMAIN', null),
-        'namespace' => 'App\\Admin\\Controllers',
+        'prefix' => 'stand-admin',
+
+        'namespace' => 'App\\StandAdmin\\Controllers',
 
         'middleware' => ['web', 'admin'],
     ],
@@ -75,7 +75,7 @@ return [
     | be set before running `artisan admin::install` to take effect.
     |
     */
-    'directory' => app_path('Admin'),
+    'directory' => app_path('StandAdmin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,19 +119,19 @@ return [
     'auth' => [
         'enable' => true,
 
-        'controller' => App\Admin\Controllers\AuthController::class,
+        'controller' => App\StandAdmin\Controllers\AuthController::class,
 
-        'guard' => 'admin',
+        'guard' => 'stand-admin',
 
         'guards' => [
-            'admin' => [
+            'stand-admin' => [
                 'driver'   => 'session',
-                'provider' => 'admin',
+                'provider' => 'stand-admin',
             ],
         ],
 
         'providers' => [
-            'admin' => [
+            'stand-admin' => [
                 'driver' => 'eloquent',
                 'model'  => Dcat\Admin\Models\Administrator::class,
             ],
@@ -347,16 +347,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Extension Directory
-    |--------------------------------------------------------------------------
-    |
-    | When you use command `php artisan admin:extend` to generate extensions,
-    | the extension files will be generated in this directory.
-    */
-    'extension_dir' => app_path('Admin/Extensions'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Settings for extensions.
     |--------------------------------------------------------------------------
     |
@@ -366,11 +356,5 @@ return [
     */
     'extensions' => [
 
-    ],
-
-    'multi_app' => [
-        // 与新应用的配置文件名称一致
-        // 设置为true启用，false则是停用
-        'stand-admin' => true,
     ],
 ];
