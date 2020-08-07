@@ -133,7 +133,7 @@ return [
         'providers' => [
             'stand-admin' => [
                 'driver' => 'eloquent',
-                'model'  => Dcat\Admin\Models\Administrator::class,
+                'model'  => App\Models\Stand\StandAdminUser::class,
             ],
         ],
 
@@ -165,7 +165,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'helpers' => [
-        'enable' => true,
+        'enable' => false,
     ],
 
     /*
@@ -244,27 +244,27 @@ return [
         'connection' => '',
 
         // User tables and model.
-        'users_table' => 'admin_users',
-        'users_model' => Dcat\Admin\Models\Administrator::class,
+        'users_table' => 'stand_admin_users',
+        'users_model' => App\Models\Stand\StandAdminUser::class,
 
         // Role table and model.
-        'roles_table' => 'admin_roles',
+        'roles_table' => 'stand_admin_roles',
         'roles_model' => Dcat\Admin\Models\Role::class,
 
         // Permission table and model.
-        'permissions_table' => 'admin_permissions',
+        'permissions_table' => 'stand_admin_permissions',
         'permissions_model' => Dcat\Admin\Models\Permission::class,
 
         // Menu table and model.
-        'menu_table' => 'admin_menu',
-        'menu_model' => Dcat\Admin\Models\Menu::class,
+        'menu_table' => 'stand_admin_menu',
+        'menu_model' => App\Models\Stand\StandMenu::class,
 
         // Pivot table for table above.
-        'operation_log_table'    => 'admin_operation_log',
-        'role_users_table'       => 'admin_role_users',
-        'role_permissions_table' => 'admin_role_permissions',
-        'role_menu_table'        => 'admin_role_menu',
-        'permission_menu_table'  => 'admin_permission_menu',
+        'operation_log_table'    => 'stand_admin_operation_log',
+        'role_users_table'       => 'stand_admin_role_users',
+        'role_permissions_table' => 'stand_admin_role_permissions',
+        'role_menu_table'        => 'stand_admin_role_menu',
+        'permission_menu_table'  => 'stand_admin_permission_menu',
     ],
 
     /*
