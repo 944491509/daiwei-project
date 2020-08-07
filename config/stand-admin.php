@@ -165,7 +165,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'helpers' => [
-        'enable' => false,
+        'enable' => true,
     ],
 
     /*
@@ -245,15 +245,18 @@ return [
 
         // User tables and model.
         'users_table' => 'stand_admin_users',
+//        'users_model' => Dcat\Admin\Models\Administrator::class,
         'users_model' => App\Models\Stand\StandAdminUser::class,
 
         // Role table and model.
         'roles_table' => 'stand_admin_roles',
-        'roles_model' => Dcat\Admin\Models\Role::class,
+//        'roles_model' => Dcat\Admin\Models\Role::class,
+        'roles_model' => App\Models\Stand\StandAdminRole::class,
 
         // Permission table and model.
         'permissions_table' => 'stand_admin_permissions',
-        'permissions_model' => Dcat\Admin\Models\Permission::class,
+//        'permissions_model' => Dcat\Admin\Models\Permission::class,
+        'permissions_model' => App\Models\Stand\StandAdminPermission::class,
 
         // Menu table and model.
         'menu_table' => 'stand_admin_menu',
