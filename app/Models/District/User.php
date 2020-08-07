@@ -29,9 +29,10 @@ class User extends Authenticatable
     /**
      * 项目部
      */
-    public function areaStand()
+    public function stand()
     {
-        return $this->belongsToMany(AreaStand::class);
+        return $this->belongsToMany(AreaStand::class,'user_profiles',
+            'user_id', 'area_stand_id');
     }
 
     /**

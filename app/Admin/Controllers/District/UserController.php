@@ -38,9 +38,9 @@ class UserController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new User());
-        $grid->with(['areaStand']);
+        $grid->model()->with(['stand']);
         $grid->quickSearch('name', 'mobile', 'phone')->placeholder('搜索 名字 手机号');
-        $dao = new AreaStandDao;
+        $dao = new AreaStandDao();
         $areaDao = $dao->getAllAreaStand();
         $area = $areaDao->pluck('name', 'id');
         $postDao = new postDao;
@@ -64,7 +64,7 @@ class UserController extends AdminController
                 $filter->equal('profile.post_id', '岗位')->select($posts);
             });
         });
-        $grid->areaStand()->pluck('name')->label();
+        $grid->stand()->pluck('name')->label();
 //        $grid->column('area_stand_id', '项目部')->display(function () {
 //            return $this->profile->areaStand->name;
 //        });
