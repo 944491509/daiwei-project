@@ -37,7 +37,7 @@ class NatureController extends AdminController
         $grid->column('name', __('Name'));
         $grid->column('times',__('Times'))->display(function ($times) {
             $res = array_map(function ($times) {
-                return "<span class='label' style='background-color: #00a65a;'>{$times['hour']}小时</span>";
+                return "<span class='label' style='background-color: rgba(0,75,166,0.8);'>{$times['hour']}小时</span>";
             }, $times);
             return join(' ', $res);
         });
