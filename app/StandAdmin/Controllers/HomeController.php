@@ -4,15 +4,19 @@ namespace App\StandAdmin\Controllers;
 
 use App\StandAdmin\Metrics\Examples;
 use App\Http\Controllers\Controller;
+use App\StandAdmin\StandAdmin;
 use Dcat\Admin\Controllers\Dashboard;
 use Dcat\Admin\Layout\Column;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Layout\Row;
+use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
-    public function index(Content $content)
+    public function index(Content $content, Request $request)
     {
+        $this->setSession();
 
         return $content
             ->header('Dashboard')
@@ -34,4 +38,10 @@ class HomeController extends Controller
                 });
             });
     }
+
+    public function setSession()
+    {
+        session(['AreaStandId' => StandAdmin::user()['area_stand_id']]);
+    }
+
 }

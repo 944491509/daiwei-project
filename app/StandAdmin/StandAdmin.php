@@ -1,20 +1,17 @@
 <?php
 
 
-namespace App\StandAdmin\Controllers;
+namespace App\StandAdmin;
 
 
 use Dcat\Admin\Admin;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\GuardHelpers;
+use Dcat\Admin\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Dcat\Admin\Traits\HasPermissions;
-
 
 class StandAdmin extends Admin
 {
-
 
     /**
      * 获取登录用户模型.

@@ -2,11 +2,10 @@
 
 namespace App\StandAdmin\Controllers;
 
-use App\Models\Stand\StandAdminUser;
 use Dcat\Admin\Form;
-use Dcat\Admin\Admin;
-use Dcat\Admin\Controllers\AuthController as BaseAuthController;
+use App\StandAdmin\StandAdmin;
 use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Controllers\AuthController as BaseAuthController;
 
 class AuthController extends BaseAuthController
 {
