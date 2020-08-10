@@ -32,11 +32,6 @@ class AutomobileController extends AdminController
     protected function grid()
     {
         $model = new Automobile();
-        $types = $model->allCatType();
-        $natures = $model->allNature();
-        $uses = $model->allUse();
-        $areaStandDao = new AreaStandDao();
-        $stands = $areaStandDao->getAreaStandOption();
         $areaStandId = session('AreaStandId');
         $grid = (new Grid($model));
         $grid->model()->with(['driver','stand'])->where(['stand_id'=>$areaStandId]);

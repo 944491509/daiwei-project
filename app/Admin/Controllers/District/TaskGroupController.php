@@ -75,7 +75,7 @@ class TaskGroupController extends AdminController
 
         $form->select('stand_id', __('Stand'))->options($stands)
             ->load('department_id',
-                '/api/stand/get-departments','id',
+                url('/api/stand/get-departments'),'id',
                 'name')->required();
 
         $form->select('department_id', __('Department'))->options(function ($id) {
