@@ -18,5 +18,6 @@ Route::group([
         $router->resource('departments', District\DepartmentController::class);
         $router->resource('task-groups', District\TaskGroupController::class);
         $router->resource('automobiles', District\AutomobileController::class);
+        $router->resource('instruments', District\InstrumentController::class);
     });
 });
