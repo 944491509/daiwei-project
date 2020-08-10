@@ -104,7 +104,7 @@ class AutomobileController extends AdminController
                 ->updateRules(['required', "unique:automobiles,number,{{id}}"]);
             $form->select('type', __('Type'))->options($type)->required();
             $form->select('stand_id', __('Stand'))->options($stands)
-                ->load('user_id', '/api/stand/get-driver-stand', 'id', 'name')->required();
+                ->load('user_id', url('/api/stand/get-driver-stand'), 'id', 'name')->required();
             $form->select('user_id', __('Driver'))->options(function ($id) {
                 return User::where('id', $id)->pluck('name', 'id'); // 回显
             })->required();

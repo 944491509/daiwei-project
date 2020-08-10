@@ -6,8 +6,10 @@ namespace App\StandAdmin\Controllers\District;
 
 use App\Admin\Actions\Automobile\ImportAction;
 use App\Admin\Actions\Automobile\OutputAction;
-use App\Dao\District\UserDao;
+use App\Admin\Repositories\Automobile as AutomobileModel;
+use App\Dao\District\AreaStandDao;
 use App\Models\District\Automobile;
+use App\Models\District\User;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -30,6 +32,11 @@ class AutomobileController extends AdminController
     protected function grid()
     {
         $model = new Automobile();
+        $types = $model->allCatType();
+        $natures = $model->allNature();
+        $uses = $model->allUse();
+        $areaStandDao = new AreaStandDao();
+        $stands = $areaStandDao->getAreaStandOption();
         $areaStandId = session('AreaStandId');
         $grid = (new Grid($model));
         $grid->model()->with(['driver','stand'])->where(['stand_id'=>$areaStandId]);
@@ -54,6 +61,9 @@ class AutomobileController extends AdminController
             $tools->append(new OutputAction());
             $tools->append(new ImportAction());
         });
+
+
+
         return $grid;
     }
 
@@ -67,26 +77,25 @@ class AutomobileController extends AdminController
     protected function form()
     {
         $automobile = new Automobile();
+        $areaStandDao = new AreaStandDao();
+        $stands = $areaStandDao->getAreaStandOption();
         $nature = $automobile->allNature();
         $use= $automobile->allUse();
-        $userDao = new UserDao();
-        $areaStandId = session('AreaStandId');
-        $users = $userDao->getDriverByStandId($areaStandId);
-        $driver = [];
-        foreach ($users as $key => $item) {
-            $driver[$item->id] = $item->name;
-        }
+
         // 这里需要显式地指定关联关系
         $type = $automobile->allCatType();
         $form = new Form($automobile);
-        $form->column(1/2, function ($form) use ($type, $nature, $use, $driver, $areaStandId){
-            $form->hidden('stand_id')->default($areaStandId);
+        $form->column(1/2, function ($form) use ($type, $stands, $nature, $use){
             $form->text('number', __('Number'))
                 ->creationRules(['required', "unique:automobiles"])
                 ->updateRules(['required', "unique:automobiles,number,{{id}}"]);
             $form->select('type', __('Type'))->options($type)->required();
+            $form->select('stand_id', __('Stand'))->options($stands)
+                ->load('user_id', url('/api/stand/get-driver-stand'), 'id', 'name')->required();
 
-            $form->select('user_id', __('Driver'))->options($driver)->required();
+            $form->select('user_id', __('Driver'))->options(function ($id) {
+                return User::where('id', $id)->pluck('name', 'id'); // 回显
+            })->required();
 
             $form->select('nature', __('Nature'))->options($nature)->required();
             $form->select('use', __('Use'))->options($use)->required();
@@ -96,12 +105,12 @@ class AutomobileController extends AdminController
             $form->currency('price', '购买'.__('Price'))->symbol('￥');
             $form->currency('rent', __('Rent'))->symbol('￥');
             $form->date('bought_at', __('Bought at'))->default(date('Y-m-d'));
-            $form->text('model', '车辆'.__('Model'));
-            $form->text('displacement', __('Displacement'));
         });
 
         $form->column(1/2, function ($form) {
 
+            $form->text('model', '车辆'.__('Model'));
+            $form->text('displacement', __('Displacement'));
             $form->text('bought_company', __('Bought company'));
             $form->text('oil_wear', __('Oil wear'));
             $form->text('engine_num', __('Engine num'));
