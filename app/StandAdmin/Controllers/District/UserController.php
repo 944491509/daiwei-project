@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Admin\Controllers\District;
+namespace App\StandAdmin\Controllers\District;
 
 use App\Dao\District\AreaStandDao;
-use App\Dao\District\MajorDao;
 use App\Dao\District\PostDao;
-use App\Models\ChinaArea;
 use App\Models\District\Department;
 use App\Models\District\Major;
-use App\Models\District\Post;
 use App\Models\District\TaskGroup;
 use App\Models\District\User;
 use App\Models\District\UserProfile;
@@ -17,8 +14,6 @@ use App\Models\InitialValue\ProfessionalSkill;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use Dcat\Admin\Show;
-use Tests\Models\Profile;
 
 
 class UserController extends AdminController
@@ -41,6 +36,8 @@ class UserController extends AdminController
         $grid = new Grid(new User());
 
         $grid->model()->with(['profile', 'profile.areaStand', 'profile.department', 'profile.group', 'profile.major', 'profile.post']);
+        $grid->model()->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->where('area_stand_id', session('AreaStandId'));
 
         $grid->quickSearch('name', 'mobile', 'phone')->placeholder('搜索 名字 手机号');
         $dao = new AreaStandDao();

@@ -13,11 +13,11 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
-
     $router->group(['prefix' => 'district'], function (Router $router) {
-        $router->resource('departments', District\DepartmentController::class);
-        $router->resource('task-groups', District\TaskGroupController::class);
-        $router->resource('automobiles', District\AutomobileController::class);
-        $router->resource('instruments', District\InstrumentController::class);
+        $router->resource('departments', 'District\DepartmentController');
+        $router->resource('task-groups', 'District\TaskGroupController');
+        $router->resource('automobiles', 'District\AutomobileController');
+        $router->resource('instruments', 'District\InstrumentController');
+        $router->resource('users', 'District\UserController');
     });
 });
