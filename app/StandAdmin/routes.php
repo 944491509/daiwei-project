@@ -15,6 +15,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
 
     $router->group(['prefix' => 'district'], function (Router $router) {
+        $router->resource('departments', District\DepartmentController::class);
         $router->resource('task-groups', District\TaskGroupController::class);
     });
 });
