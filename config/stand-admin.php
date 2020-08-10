@@ -260,7 +260,7 @@ return [
 
         // Menu table and model.
         'menu_table' => 'stand_admin_menu',
-        'menu_model' => App\Models\Stand\StandMenu::class,
+        'menu_model' => App\Models\Stand\StandAdminMenu::class,
 
         // Pivot table for table above.
         'operation_log_table'    => 'stand_admin_operation_log',
