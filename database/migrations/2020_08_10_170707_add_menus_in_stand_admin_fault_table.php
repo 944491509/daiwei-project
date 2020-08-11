@@ -45,7 +45,7 @@ class AddMenusInStandAdminFaultTable extends Migration
             ],
             [
                 'parent_id' => $id,
-                'order' => 2,
+                'order' => 3,
                 'title' => '故障列表',
                 'icon' => 'fa-list',
                 'uri' => 'fault/list',
