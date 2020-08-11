@@ -13,6 +13,7 @@ use App\Models\District\User;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
 
 class AutomobileController extends AdminController
 {
@@ -22,7 +23,7 @@ class AutomobileController extends AdminController
      *
      * @var string
      */
-    protected $title = '车辆';
+    protected $title = '车辆管理';
 
     /**
      * Make a grid builder.

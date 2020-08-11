@@ -17,6 +17,16 @@ class AreaStandDao
         return AreaStand::all();
     }
 
+    /**
+     * 根据 ID 查询
+     * @param $id
+     * @return mixed
+     */
+    public function getAreaStandById($id)
+    {
+        return AreaStand::where('id', $id)->first();
+    }
+
 
     /**
      * 为options处理数据

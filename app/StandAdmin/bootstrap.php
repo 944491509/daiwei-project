@@ -24,3 +24,15 @@ use Dcat\Admin\Show;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+
+Grid::resolving(function (Grid $grid) {
+    $grid->disableViewButton();
+
+});
+
+
+Form::resolving(function (Form $form) {
+    $form->disableViewButton();
+    $form->disableViewCheck();
+    $form->disableDeleteButton();
+});

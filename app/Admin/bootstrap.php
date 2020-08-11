@@ -29,6 +29,8 @@ Grid::resolving(function (Grid $grid) {
 
 Form::resolving(function (Form $form) {
     $form->disableViewButton();
+    $form->disableViewCheck();
+    $form->disableDeleteButton();
 });
 
 
