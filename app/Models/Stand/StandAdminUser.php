@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\URL;
  * @property string $name
  * @property string $avatar
  * @property string $remember_token
- * @property string $created_at
- * @property string $updated_at
+ * @property string $area_stand_id
  */
 class StandAdminUser extends Administrator
 {
@@ -28,7 +27,8 @@ class StandAdminUser extends Administrator
     /**
      * @var array
      */
-    protected $fillable = ['username', 'password', 'name', 'avatar', 'remember_token', 'created_at', 'updated_at'];
+    protected $fillable = ['username', 'password', 'name', 'avatar',
+        'remember_token', 'area_stand_id'];
 
     /**
      * Create a new Eloquent model instance.
