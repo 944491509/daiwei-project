@@ -60,7 +60,7 @@ class TroubleForm extends Model
         return $this->belongsTo(TroubleData::class, 'network_type');
     }
 
-    public function network_category()
+    public function networkCategory()
     {
         return $this->belongsTo(TroubleData::class, 'category');
     }
