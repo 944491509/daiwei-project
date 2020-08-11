@@ -19,7 +19,7 @@ Route::group([
         $router->resource('task-groups', 'District\TaskGroupController');
         $router->resource('automobiles', 'District\AutomobileController');
         $router->resource('instruments', 'District\InstrumentController');
-        $router::resource('users', 'District\UserController');
+        $router->resource('users', 'District\UserController');
     });
 
     // 网络故障
