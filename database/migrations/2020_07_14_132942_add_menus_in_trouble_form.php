@@ -39,7 +39,7 @@ class AddMenusInTroubleForm extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.`
      *
      * @return void
      */
