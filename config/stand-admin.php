@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Dcat Admin',
+    'name' => '项目部',
 
     /*
     |--------------------------------------------------------------------------
@@ -20,9 +20,9 @@ return [
     |
     | The logo of all admin pages. You can also set it as an image by using a
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
-    |
+    | <img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;
     */
-    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;Dcat Admin',
+    'logo' => '项目部',
 
     /*
     |--------------------------------------------------------------------------
@@ -32,9 +32,9 @@ return [
     | The logo of all admin pages when the sidebar menu is collapsed. You can
     | also set it as an image by using a `img` tag, eg
     | '<img src="http://logo-url" alt="Admin logo">'.
-    |
+    | <img src="/vendors/dcat-admin/images/logo.png">
     */
-    'logo-mini' => '<img src="/vendors/dcat-admin/images/logo.png">',
+    'logo-mini' => '项目',
 
     /*
 	 |--------------------------------------------------------------------------
@@ -317,7 +317,7 @@ return [
     */
     'layout' => [
         // indigo, blue, blue-light, blue-dark, green
-        'color' => 'indigo',
+        'color' => 'green',
 
         'body_class' => '',
 

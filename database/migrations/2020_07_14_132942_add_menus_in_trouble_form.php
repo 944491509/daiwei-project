@@ -17,7 +17,7 @@ class AddMenusInTroubleForm extends Migration
         $menu = [
             'parent_id' => 0,
             'order' => 0,
-            'title' => '网络隐患信息',
+            'title' => '网络隐患',
             'icon' => 'fa-chain-broken',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
@@ -45,7 +45,7 @@ class AddMenusInTroubleForm extends Migration
      */
     public function down()
     {
-        $title = ['网络隐患信息', '网络隐患申报'];
+        $title = ['网络隐患', '网络隐患申报'];
         DB::table('admin_menu')->whereIn('title', $title)->delete();
     }
 }

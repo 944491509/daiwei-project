@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Dcat Admin',
+    'name' => '通信项目综合管理系统',
 
     /*
     |--------------------------------------------------------------------------
@@ -20,9 +20,9 @@ return [
     |
     | The logo of all admin pages. You can also set it as an image by using a
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
-    |
+    | <img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;Dcat Admin
     */
-    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;Dcat Admin',
+    'logo' => '通信项目综合管理',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<img src="/vendors/dcat-admin/images/logo.png">',
+    'logo-mini' => '通信',
 
     /*
      |--------------------------------------------------------------------------
@@ -322,7 +322,7 @@ return [
 
         'sidebar_dark' => false,
 
-        'dark_mode_switch' => false,
+        'dark_mode_switch' => true,
 
         // bg-primary, bg-info, bg-warning, bg-success, bg-danger, bg-dark
         'navbar_color' => '',

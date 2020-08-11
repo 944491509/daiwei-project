@@ -29,22 +29,23 @@ class TroubleFormController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new TroubleForm());
+        $grid->model()->with(['stand', 'user', 'type', 'networkCategory', 'network']);
 
-        $grid->column('area_stand_id', '项目部')->display(function () {
-            return $this->stand->name;
-        });
-        $grid->column('user_id', '隐患申报人员')->display(function () {
-            return $this->user->name;
-        });
-        $grid->column('network_type', '网络类型')->display(function () {
-            return $this->type->name;
-        });
-        $grid->column('category', '网络专业类别')->display(function () {
-            return $this->network_category->name;
-        });
-        $grid->column('network_name', '网络专业名称')->display(function () {
-            return $this->network->name;
-        });
+//        $grid->column('stand.area_stand_id', '项目部')->display(function ($stand) {
+//            dd($stand);
+//        });
+//        $grid->column('user.id', '隐患申报人员')->display(function ($user) {
+//                dd($user);
+//        });
+//        $grid->column('network_type', '网络类型')->display(function () {
+//            return $this->type->name;
+//        });
+//        $grid->column('category', '网络专业类别')->display(function () {
+//            return $this->network_category->name;
+//        });
+//        $grid->column('network_name', '网络专业名称')->display(function () {
+//            return $this->network->name;
+//        });
         $grid->column('name', '业务名称');
         $grid->column('position', '隐患地点');
         $grid->column('distance', '距离');
@@ -117,7 +118,7 @@ class TroubleFormController extends AdminController
 
         $form->select('area_stand_id', '所属项目部')
             ->options($area)
-            ->load('user_id', '/api/trouble/get-personnel', 'id', 'name')
+            ->load('user_id', url('/api/trouble/get-personnel'), 'id', 'name')
             ->required();
 
         $form->select('user_id', '隐患申报人员')->options(function ($id) {
@@ -126,11 +127,11 @@ class TroubleFormController extends AdminController
 
         $form->select('network_type', '网络类型')->options(function () {
             return TroubleData::where('p_id', 0)->pluck('name', 'id');
-        })->load('category', '/api/trouble/get-category', 'id', 'name')->required();
+        })->load('category', url('/api/trouble/get-category'), 'id', 'name')->required();
 
         $form->select('category', '网络专业类别')->options(function ($id) {
             return TroubleData::where('id', $id)->pluck('name', 'id');
-        })->load('network_name', '/api/trouble/get-category', 'id', 'name')->required();
+        })->load('network_name', url('/api/trouble/get-category'), 'id', 'name')->required();
 
         $form->select('network_name', '网络专业名称')->options(function ($id) {
             return TroubleData::where('id', $id)->pluck('name', 'id');
