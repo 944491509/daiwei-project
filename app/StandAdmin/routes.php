@@ -13,6 +13,8 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    $router->resource('auth/users', 'UserController');
+
 
     $router->group(['prefix' => 'district'], function (Router $router) {
         $router->resource('departments', 'District\DepartmentController');
