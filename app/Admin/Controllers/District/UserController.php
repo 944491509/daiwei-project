@@ -103,7 +103,8 @@ class UserController extends AdminController
      */
     protected function form()
     {
-        $form = Form::make(User::with('profile'), function (Form $form) {
+
+        return Form::make(User::with(['profile', 'userMajor']), function (Form $form) {
             $dao = new AreaStandDao;
             $areaDao = $dao->getAllAreaStand();
             $area = $areaDao->pluck('name', 'id');
@@ -255,12 +256,6 @@ class UserController extends AdminController
                 });
             }
         });
-
-
-
-
-
-        return $form;
     }
 
 

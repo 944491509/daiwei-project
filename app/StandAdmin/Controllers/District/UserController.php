@@ -3,6 +3,7 @@
 namespace App\StandAdmin\Controllers\District;
 
 use App\Dao\District\AreaStandDao;
+use App\Dao\District\DepartmentDao;
 use App\Dao\District\PostDao;
 use App\Models\District\Department;
 use App\Models\District\Major;
@@ -55,7 +56,6 @@ class UserController extends AdminController
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->column(1 / 3, function ($filter) use ($area) {
-                $filter->equal('profile.area_stand_id', '项目部')->select($area)->load('profile.department_id', url('/api/stand/get-departments'), 'id', 'name');
                 $filter->equal('profile.department_id', '部门')->select()->load('profile.group_id', url('/api/stand/get-group'), 'id', 'name');
             });
 
@@ -64,9 +64,7 @@ class UserController extends AdminController
                 $filter->equal('profile.post_id', '岗位')->select($posts);
             });
         });
-        $grid->column('profile.area_stand', '项目部')->display(function ($obj) {
-            return $obj['name'];
-        });
+
         $grid->column('profile.department', '部门')->display(function ($obj) {
             return $obj['name'];
         });
@@ -100,16 +98,23 @@ class UserController extends AdminController
      */
     protected function form()
     {
-        $form = Form::make(User::with('profile'), function (Form $form) {
+        return Form::make(User::with(['profile', 'userMajor']), function (Form $form) {
             $dao = new AreaStandDao;
-            $areaDao = $dao->getAllAreaStand();
-            $area = $areaDao->pluck('name', 'id');
+            $areaData = $dao->getAreaStandById(session('AreaStandId'));
+            $area = [$areaData->id => $areaData->name];
 
             $postDao = new postDao;
             $postData = $postDao->getAllPost();
             $posts = [];
             foreach ($postData as $val) {
                 $posts[$val->id] = $val->name;
+            }
+
+            $departmentDao = new DepartmentDao;
+            $departmentData = $departmentDao->getDepartmentsByStandId(session('AreaStandId'));
+            $department =[];
+            foreach ($departmentData as $val) {
+                $department[$val->id] = $val->name;
             }
 
             $skill = ProfessionalSkill::all()->pluck('name', 'id');
@@ -131,32 +136,28 @@ class UserController extends AdminController
                     $form->text('profile.id_number', '身份证号')->required();
                     $form->date('profile.birthday', '生日')->format('YYYY-MM-DD');
                 });
-                $form->column(1 / 2, function ($form) use ($area, $posts) {
+                $form->column(1 / 2, function ($form) use ($areaData, $posts, $department) {
+                    $form->hidden('profile.area_stand_id')->value($areaData['id']);
+                    $form->select('profile.department_id', '部门')->options(function () use ($department) {
+                        return $department;
+                    })->load('profile.group_id', url('/api/stand/get-group'), 'id', 'name')->required();
 
-                $form->select('profile.area_stand_id', '所属项目部')->options(function () use ($area) {
-                    return $area;
-                })->load('profile.department_id', url('/api/stand/get-departments'), 'id', 'name')->required();
+                    $form->select('profile.group_id', '班组')->options(function ($id) {
+                        return TaskGroup::where('id', $id)->pluck('name', 'id');
+                    })->required();
 
-                $form->select('profile.department_id', '部门')->options(function ($id) {
-                    return Department::where('id', $id)->pluck('name', 'id');
-                })->load('profile.group_id', url('/api/stand/get-group'), 'id', 'name')->required();
+                    $form->select('profile.post_id', '岗位')->options($posts)->load('profile.major_id', url('/api/stand/get-major'), 'id', 'name')->required();
 
-                $form->select('profile.group_id', '班组')->options(function ($id) {
-                    return TaskGroup::where('id', $id)->pluck('name', 'id');
-                })->required();
+                    $form->select('profile.major_id', '专业')->options(function ($id) {
+                        return Major::where('id', $id)->pluck('name', 'id');
+                    })->required();
 
-                $form->select('profile.post_id', '岗位')->options($posts)->load('profile.major_id', url('/api/stand/get-major'), 'id', 'name')->required();
-
-                $form->select('profile.major_id', '专业')->options(function ($id) {
-                    return Major::where('id', $id)->pluck('name', 'id');
-                })->required();
-
-                $form->date('profile.entry_time', '入职日期')->format('YYYY-MM-DD')->required();
-                $form->date('profile.signing_time', '签约日期')->format('YYYY-MM-DD');
-                $form->date('profile.due_time', '合同到期日期')->format('YYYY-MM-DD');
-                $form->text('profile.serial', '合同编号');
-                $form->textarea('profile.note', '备注')->rows(5);
-            });
+                    $form->date('profile.entry_time', '入职日期')->format('YYYY-MM-DD')->required();
+                    $form->date('profile.signing_time', '签约日期')->format('YYYY-MM-DD');
+                    $form->date('profile.due_time', '合同到期日期')->format('YYYY-MM-DD');
+                    $form->text('profile.serial', '合同编号');
+                    $form->textarea('profile.note', '备注')->rows(5);
+                });
             }
 
             if ($form->isEditing()) {
@@ -200,14 +201,11 @@ class UserController extends AdminController
                     $form->text('profile.vehicle_card_num', '驾照编号');
                     $form->date('profile.vehicle_card_audit_time', '驾照年审时间')->format('YYYY-MM-DD');
                     $form->date('profile.next_vehicle_card_audit_time', '下次驾照年审时间')->format('YYYY-MM-DD');
-                })->tab('部门信息', function ($form) use ($area, $posts) {
+                })->tab('部门信息', function ($form) use ($areaData, $posts, $department) {
 
-                    $form->select('profile.area_stand_id', '所属项目部')->options(function () use ($area) {
-                        return $area;
-                    })->load('profile.department_id', url('/api/stand/get-departments'), 'id', 'name')->required();
-
-                    $form->select('profile.department_id', '部门')->options(function ($id) {
-                        return Department::where('id', $id)->pluck('name', 'id');
+                    $form->hidden('profile.area_stand_id')->value($areaData['id']);
+                    $form->select('profile.department_id', '部门')->options(function () use ($department) {
+                        return $department;
                     })->load('profile.group_id', url('/api/stand/get-group'), 'id', 'name')->required();
 
                     $form->select('profile.group_id', '班组')->options(function ($id) {
@@ -252,12 +250,6 @@ class UserController extends AdminController
                 });
             }
         });
-
-
-
-
-
-        return $form;
     }
 
 
