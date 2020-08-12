@@ -26,8 +26,9 @@ Route::group([
         $router->resource('majors', 'District\MajorController');
         $router->resource('automobiles', 'District\AutomobileController');
         $router->any('outputExcel', 'District\AutomobileController@outputExcel');
-
         $router->resource('instruments', 'District\InstrumentController');
+        $router->resource('StandUser', 'District\StandAdminUserController');
+
     });
 
     // 基础资料

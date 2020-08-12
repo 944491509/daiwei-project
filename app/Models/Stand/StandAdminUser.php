@@ -2,10 +2,11 @@
 
 namespace App\Models\Stand;
 
-use Dcat\Admin\Models\Administrator;
 use Dcat\Admin\Traits\HasDateTimeFormatter;
 use Dcat\Admin\Traits\HasPermissions;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -19,11 +20,14 @@ use Illuminate\Support\Facades\URL;
  * @property string $remember_token
  * @property string $area_stand_id
  */
-class StandAdminUser extends Administrator
+class StandAdminUser extends Model implements AuthenticatableContract
 {
     use Authenticatable,
         HasPermissions,
         HasDateTimeFormatter;
+
+
+
     /**
      * @var array
      */
@@ -52,7 +56,7 @@ class StandAdminUser extends Administrator
         $avatar = $this->avatar;
         if ($avatar) {
             if (! URL::isValidUrl($avatar)) {
-                $avatar = Storage::disk(config('admin.upload.disk'))->url($avatar);
+                $avatar = Storage::disk(config('stand-admin.upload.disk'))->url($avatar);
             }
 
             return $avatar;
