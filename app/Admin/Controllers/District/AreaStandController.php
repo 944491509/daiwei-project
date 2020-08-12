@@ -2,17 +2,13 @@
 
 namespace App\Admin\Controllers\District;
 
-use App\Dao\ChinaAreaDao;
 use App\Dao\District\FacilitatorDao;
 use App\Models\ChinaArea;
 use App\Models\District\AreaStand;
 use App\Models\District\Facilitators;
-use DemeterChain\A;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Show;
 
 class AreaStandController extends AdminController
 {
@@ -79,6 +75,12 @@ class AreaStandController extends AdminController
 
         $grid->column('remark', __('Remark'));
         $grid->column('created_at', __('Created at'));
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            // append一个操作
+            $id = $actions->getKey();
+            $actions->append("<a href='StandUser?area_stand_id=$id'>
+            <i class='fa fa-user-plus'>管理员</i></a>");
+        });
 
         return $grid;
     }
@@ -142,7 +144,7 @@ class AreaStandController extends AdminController
         return $form;
     }
 
-    public function destroy($id){
-        dd($id);
+    public function addStandUser(){
+        dd(123);
     }
 }
