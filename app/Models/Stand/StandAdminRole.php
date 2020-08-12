@@ -2,8 +2,9 @@
 
 namespace App\Models\Stand;
 
-use Dcat\Admin\Models\Role;
+use Dcat\Admin\Traits\HasDateTimeFormatter;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -13,8 +14,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $created_at
  * @property string $updated_at
  */
-class StandAdminRole extends Role
+class StandAdminRole extends Model
 {
+
+    use HasDateTimeFormatter;
+
+    const ADMINISTRATOR = 'administrator';
+
+    const ADMINISTRATOR_ID = 1;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -101,5 +109,33 @@ class StandAdminRole extends Role
 
                 return array_column($v, 'permission_id');
             });
+    }
+
+
+    /**
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public static function isAdministrator(?string $slug)
+    {
+        return $slug === static::ADMINISTRATOR;
+    }
+
+
+    /**
+     * Detach models from the relationship.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->administrators()->detach();
+
+            $model->permissions()->detach();
+        });
     }
 }

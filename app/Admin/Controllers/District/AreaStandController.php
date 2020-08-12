@@ -143,8 +143,4 @@ class AreaStandController extends AdminController
 
         return $form;
     }
-
-    public function addStandUser(){
-        dd(123);
-    }
 }

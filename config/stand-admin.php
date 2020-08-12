@@ -245,7 +245,7 @@ return [
 
         // User tables and model.
         'users_table' => 'stand_admin_users',
-//        'users_model' => Dcat\Admin\Models\Administrator::class,
+        'users_model' => Dcat\Admin\Models\Administrator::class,
         'users_model' => App\Models\Stand\StandAdminUser::class,
 
         // Role table and model.
